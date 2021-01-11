@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Log.d("test", "test");
-                subject.map(dan -> Long.parseLong(editText.getText().toString()))
-                        .flatMap(dan -> BehaviorSubject.range(1, 9),
+                subject.map(dan -> Long.parseLong(editText.getText().toString())) //createDefault로 했던 값을 editText의 값으로 바꾼다.
+                        .flatMap(row -> BehaviorSubject.range(1, 9),
                                 (dan, row) -> dan + " x " + row + " = " + (dan * row) + "\n")
                         .scan((x, y) -> x + y)
                         .doOnNext(data -> Log.d("onNext()", data))
