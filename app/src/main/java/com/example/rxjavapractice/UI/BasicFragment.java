@@ -40,13 +40,7 @@ public class BasicFragment extends Fragment {
                 new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()))
                 .get(BasicViewModel.class);
 
-        binding.btnStart.setOnClickListener( v -> viewModel.longTask(new RepositoryCallback<Integer>() {
-            @Override
-            public void onComplete(Result<Integer> result) {
-                if ( result instanceof Result.Success) {
-                    binding.progressBar.setProgress(((Result.Success<Integer>) result).data);
-                }
-            }
-        }));
+        viewModel.getProgressiveLiveData().observe(getViewLifecycleOwner(), progress -> binding.progressBar.setProgress(progress));
+        binding.btnStart.setOnClickListener(v -> viewModel.longTask());
     }
 }

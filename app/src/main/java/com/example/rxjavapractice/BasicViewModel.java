@@ -4,12 +4,14 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.rxjavapractice.Repository.BasicRepository;
 import com.example.rxjavapractice.Repository.RepositoryCallback;
 
 public class BasicViewModel extends AndroidViewModel {
     private final BasicRepository basicRepository;
+    private MutableLiveData<Integer> progressiveLiveData = new MutableLiveData<>(0);
 
     public BasicViewModel(@NonNull Application application) {
         super(application);
@@ -19,7 +21,15 @@ public class BasicViewModel extends AndroidViewModel {
         );
     }
 
-    public void longTask(RepositoryCallback<Integer> callback) {
-        basicRepository.longTask(callback);
+    public void longTask() {
+        basicRepository.longTask(result -> {
+            if ( result instanceof Result.Success) {
+                progressiveLiveData.postValue(((Result.Success<Integer>) result).data);
+            }
+        });
+    }
+
+    public MutableLiveData<Integer> getProgressiveLiveData() {
+        return progressiveLiveData;
     }
 }

@@ -28,15 +28,7 @@ public class BasicRepository {
         });
     }
 
-    private void notifyResult(
-            final Result<Integer> result,
-            final RepositoryCallback<Integer> callback
-            ) {
-        resultHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                callback.onComplete(result);
-            }
-        });
+    private void notifyResult(final Result<Integer> result, final RepositoryCallback<Integer> callback) {
+            resultHandler.post(() -> callback.onComplete(result));
     }
 }
