@@ -1,6 +1,6 @@
 package com.example.rxjavapractice;
 
-public class Result<T> {
+public abstract class Result<T> {
     private Result() {}
 
     public static final class Success<T> extends Result<T> {
