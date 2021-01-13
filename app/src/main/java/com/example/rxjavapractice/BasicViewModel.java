@@ -7,7 +7,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.rxjavapractice.Repository.BasicRepository;
-import com.example.rxjavapractice.Repository.RepositoryCallback;
 
 public class BasicViewModel extends AndroidViewModel {
     private final BasicRepository basicRepository;
