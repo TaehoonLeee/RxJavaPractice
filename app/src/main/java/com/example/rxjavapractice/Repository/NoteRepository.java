@@ -49,11 +49,11 @@ public class NoteRepository {
         });
     }
 
-    public void deleteAllNotes(RepositoryCallback<Note> callback, Note note) {
+    public void deleteAllNotes(RepositoryCallback<Note> callback) {
         executor.execute(() -> {
             try {
                 noteDao.deleteAllNotes();
-                notifyResult(new Result.Success<>(note), callback);
+                notifyResult(new Result.Success<>(), callback);
             }catch (Exception e) { notifyResult(new Result.Error<>(e), callback);}
         });
     }

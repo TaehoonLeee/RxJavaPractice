@@ -32,6 +32,14 @@ public class NoteViewModel extends AndroidViewModel {
         }, note);
     }
 
+    public void deleteAllNotes() {
+        noteRepository.deleteAllNotes(result -> {
+            if( result instanceof Result.Success ) {
+                Toast.makeText(getApplication(), "Deletion All Nots Success!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     public LiveData<List<Note>> getAllNotes() {
         return noteRepository.getAllNotes();
     }

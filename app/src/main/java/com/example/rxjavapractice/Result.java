@@ -9,6 +9,8 @@ public abstract class Result<T> {
         public Success(T data) {
             this.data = data;
         }
+
+        public Success() { }
     }
 
     public static final class Error<T> extends Result<T> {
