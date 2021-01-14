@@ -1,10 +1,15 @@
 package com.example.rxjavapractice;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,16 +41,35 @@ public class NoteActivity extends AppCompatActivity {
         NoteAdapter adapter = new NoteAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
 
+        binding.floatingActionButton.setOnClickListener(v -> {
+            Intent intent = new Intent(NoteActivity.this, NoteAddActivity.class);
+            startActivityForResult(intent, 1);
+        });
+
         noteViewModel = new ViewModelProvider(
                 this,
                 new ViewModelProvider.AndroidViewModelFactory(this.getApplication()))
                 .get(NoteViewModel.class);
-        noteViewModel.insert(new Note("title", "description", "1"));
+
         noteViewModel.getAllNotes().observe(this, new Observer<List<Note>>() {
             @Override
             public void onChanged(List<Note> notes) {
                 adapter.setNotes(notes);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 1 && resultCode == RESULT_OK) {
+            String title = data.getStringExtra("title");
+            String description = data.getStringExtra("description");
+            String priority = data.getStringExtra("priority");
+
+            Note note = new Note(title, description, priority);
+            noteViewModel.insert(note);
+        }
     }
 }
